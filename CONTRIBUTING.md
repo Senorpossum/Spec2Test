@@ -83,13 +83,13 @@ src/
 
 ### Key Classes
 
-| Class | File | Responsibility |
-|-------|------|----------------|
-| `StoryParser` | `src/parser/story-parser.ts` | Parses user stories from various formats |
+| Class              | File                                | Responsibility                              |
+| ------------------ | ----------------------------------- | ------------------------------------------- |
+| `StoryParser`      | `src/parser/story-parser.ts`        | Parses user stories from various formats    |
 | `CodebaseAnalyzer` | `src/analyzer/codebase-analyzer.ts` | Analyzes source code structure and patterns |
-| `TestGenerator` | `src/generator/test-generator.ts` | Generates test cases from stories |
-| `SpecGenerator` | `src/generator/spec-generator.ts` | Orchestrates the full pipeline |
-| `CLI` | `src/cli/index.ts` | Command-line interface |
+| `TestGenerator`    | `src/generator/test-generator.ts`   | Generates test cases from stories           |
+| `SpecGenerator`    | `src/generator/spec-generator.ts`   | Orchestrates the full pipeline              |
+| `CLI`              | `src/cli/index.ts`                  | Command-line interface                      |
 
 ### Adding a New Test Type
 
@@ -145,12 +145,12 @@ Tests live alongside source files (e.g., `src/parser/story-parser.test.ts`) or i
 4. Run the full test suite (`npm test`)
 5. Ensure linting passes (`npm run lint && npm run format`)
 6. Commit using [Conventional Commits](https://www.conventionalcommits.org/):
-   - `feat:` new feature
-   - `fix:` bug fix
-   - `docs:` documentation changes
-   - `refactor:` code refactoring
-   - `test:` test updates
-   - `chore:` maintenance
+    - `feat:` new feature
+    - `fix:` bug fix
+    - `docs:` documentation changes
+    - `refactor:` code refactoring
+    - `test:` test updates
+    - `chore:` maintenance
 7. Push to your fork
 8. Open a Pull Request
 

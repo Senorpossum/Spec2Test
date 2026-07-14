@@ -33,13 +33,13 @@ As a registered user, I want to log in with my email and password so that I can 
 **Acceptance Criteria:**
 
 - AC1: User can log in with valid credentials
-  - Given the user has a registered account
-  - When they enter valid email and password
-  - Then they are redirected to their dashboard
+    - Given the user has a registered account
+    - When they enter valid email and password
+    - Then they are redirected to their dashboard
 - AC2: Invalid password shows error
-  - Given the user has a registered account
-  - When they enter wrong password
-  - Then an error message "Invalid credentials" is shown
+    - Given the user has a registered account
+    - When they enter wrong password
+    - Then an error message "Invalid credentials" is shown
 ```
 
 ### 2. Run Spec2Test
@@ -93,30 +93,30 @@ Create a `spec2test.config.json` file:
 
 ```json
 {
-  "version": "1.0.0",
-  "general": {
-    "projectName": "my-app",
-    "language": "typescript",
-    "testFramework": "jest",
-    "includeEdgeCases": true,
-    "includeSecurity": true,
-    "includeAccessibility": true,
-    "includePerformance": false
-  },
-  "generation": {
-    "maxTestsPerStory": 20,
-    "minEdgeCasesPerStory": 3,
-    "duplicateThreshold": 0.8,
-    "generateDocumentation": true,
-    "generateSetupCode": true
-  },
-  "output": {
-    "outputDir": "./tests/generated",
-    "fileNamePattern": "{{framework}}-{{date}}",
-    "format": "single-file",
-    "includeTimestamp": true,
-    "overwrite": false
-  }
+    "version": "1.0.0",
+    "general": {
+        "projectName": "my-app",
+        "language": "typescript",
+        "testFramework": "jest",
+        "includeEdgeCases": true,
+        "includeSecurity": true,
+        "includeAccessibility": true,
+        "includePerformance": false
+    },
+    "generation": {
+        "maxTestsPerStory": 20,
+        "minEdgeCasesPerStory": 3,
+        "duplicateThreshold": 0.8,
+        "generateDocumentation": true,
+        "generateSetupCode": true
+    },
+    "output": {
+        "outputDir": "./tests/generated",
+        "fileNamePattern": "{{framework}}-{{date}}",
+        "format": "single-file",
+        "includeTimestamp": true,
+        "overwrite": false
+    }
 }
 ```
 
@@ -129,18 +129,18 @@ name: Generate Tests
 on: [push]
 
 jobs:
-  generate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Generate Tests
-        uses: Senorpossum/generate-tests@v1
-        with:
-          user-story: ${{ github.event.pull_request.body }}
-          source-directory: ./src
-          output-directory: ./tests/generated
-          framework: jest
-          auto-commit: true
+    generate:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Generate Tests
+              uses: Senorpossum/generate-tests@v1
+              with:
+                  user-story: ${{ github.event.pull_request.body }}
+                  source-directory: ./src
+                  output-directory: ./tests/generated
+                  framework: jest
+                  auto-commit: true
 ```
 
 ### Jira Integration
@@ -180,53 +180,53 @@ Pipeline:
 ## API Usage
 
 ```typescript
-import { SpecGenerator } from 'spec2test';
+import { SpecGenerator } from "spec2test";
 
-const generator = new SpecGenerator('./my-project/src');
+const generator = new SpecGenerator("./my-project/src");
 
 const stories = [
-  {
-    id: 'story-1',
-    title: 'User Login',
-    description: 'As a registered user, I want to log in...',
-    actor: 'registered-user',
-    action: 'log in with email and password',
-    purpose: 'access my account',
-    acceptanceCriteria: [
-      {
-        id: 'ac-1',
-        statement: 'User can log in with valid credentials',
-        scenario: [
-          {
-            given: ['the user has a registered account'],
-            when: 'they enter valid email and password',
-            then: ['they are redirected to their dashboard'],
-          },
+    {
+        id: "story-1",
+        title: "User Login",
+        description: "As a registered user, I want to log in...",
+        actor: "registered-user",
+        action: "log in with email and password",
+        purpose: "access my account",
+        acceptanceCriteria: [
+            {
+                id: "ac-1",
+                statement: "User can log in with valid credentials",
+                scenario: [
+                    {
+                        given: ["the user has a registered account"],
+                        when: "they enter valid email and password",
+                        then: ["they are redirected to their dashboard"],
+                    },
+                ],
+            },
         ],
-      },
-    ],
-    metadata: {
-      priority: 'high',
-      tags: ['auth', 'login'],
-      estimatedComplexity: 'moderate',
-      domain: 'authentication',
+        metadata: {
+            priority: "high",
+            tags: ["auth", "login"],
+            estimatedComplexity: "moderate",
+            domain: "authentication",
+        },
     },
-  },
 ];
 
-const analysis = await generator['analyzeCodebase']('./src', {});
+const analysis = await generator["analyzeCodebase"]("./src", {});
 const result = await generator.generateFromParsed(stories, analysis, {
-  sourceDirectory: './src',
-  outputDirectory: './tests',
-  framework: 'jest',
-  language: 'typescript',
-  includeEdgeCases: true,
-  includeSecurity: true,
-  includeAccessibility: true,
-  includePerformance: false,
+    sourceDirectory: "./src",
+    outputDirectory: "./tests",
+    framework: "jest",
+    language: "typescript",
+    includeEdgeCases: true,
+    includeSecurity: true,
+    includeAccessibility: true,
+    includePerformance: false,
 });
 
-await generator.writeTests(result, './tests/generated');
+await generator.writeTests(result, "./tests/generated");
 ```
 
 ## License

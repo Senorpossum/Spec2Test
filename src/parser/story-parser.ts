@@ -1,4 +1,4 @@
-import { UserStory, AcceptanceCriterion, Scenario, StoryMetadata } from '../types/index.js';
+import { UserStory, AcceptanceCriterion, Scenario, StoryMetadata } from "../types/index.js";
 
 /**
  * Parses user stories from various formats (Markdown, Jira, Linear, plain text)
@@ -76,11 +76,11 @@ export class StoryParser {
      * Extract a structured UserStory from a Markdown block.
      */
     private extractStoryFromMarkdown(block: string): UserStory | null {
-        const lines = block.split('\n');
+        const lines = block.split("\n");
 
         // Extract title (from ## header or first line)
         const titleMatch = block.match(/##\s+(.+?)\n/);
-        const title = titleMatch ? titleMatch[1].trim() : lines[0].replace(/^#+\s*/, '').trim();
+        const title = titleMatch ? titleMatch[1].trim() : lines[0].replace(/^#+\s*/, "").trim();
 
         if (!title) {
             return null;
@@ -116,23 +116,25 @@ export class StoryParser {
      * Extract the user story description (As a ... I want ... So that ...).
      */
     private extractUserStoryDescription(block: string): string {
-        const storyMatch = block.match(/(?:user\s+story|description|summary)[:\s]*([^\n]+(?:\n[^\n]+)*?)(?=\n\s*#+|\n\s*Acceptance|\n\s*Priority|\n---|$)/is);
+        const storyMatch = block.match(
+            /(?:user\s+story|description|summary)[:\s]*([^\n]+(?:\n[^\n]+)*?)(?=\n\s*#+|\n\s*Acceptance|\n\s*Priority|\n---|$)/is,
+        );
         if (storyMatch) {
             return storyMatch[1].trim();
         }
 
         // Look for "As a" pattern anywhere in the text
-        const asAMatch = block.match(/As\s+a\s+[^.]+(?:\.[^.]+)*\.\s*(?:I\s+want(?:\s+to)?[^.]+\.?\s*(?:So\s+that[^.]+\.?)*)/is);
+        const asAMatch = block.match(
+            /As\s+a\s+[^.]+(?:\.[^.]+)*\.\s*(?:I\s+want(?:\s+to)?[^.]+\.?\s*(?:So\s+that[^.]+\.?)*)/is,
+        );
         if (asAMatch) {
             return asAMatch[0];
         }
 
         // Fallback: return first non-header, non-empty line
-        const firstContentLine = block
-            .split('\n')
-            .find((line) => !line.startsWith('#') && line.trim().length > 0);
+        const firstContentLine = block.split("\n").find((line) => !line.startsWith("#") && line.trim().length > 0);
 
-        return firstContentLine?.trim() || '';
+        return firstContentLine?.trim() || "";
     }
 
     /**
@@ -143,21 +145,23 @@ export class StoryParser {
         action: string;
         purpose: string;
     } {
-        const asMatch = description.match(/As\s+a\s+([^.]+)\.\s*(?:I\s+want(?:\s+to)?\s+([^.]+)\.\s*(?:So\s+that)\s+([^.]+)\.)?/is);
+        const asMatch = description.match(
+            /As\s+a\s+([^.]+)\.\s*(?:I\s+want(?:\s+to)?\s+([^.]+)\.\s*(?:So\s+that)\s+([^.]+)\.)?/is,
+        );
 
         if (asMatch) {
             return {
                 actor: asMatch[1].trim(),
-                action: asMatch[2]?.trim() || '',
-                purpose: asMatch[3]?.trim() || '',
+                action: asMatch[2]?.trim() || "",
+                purpose: asMatch[3]?.trim() || "",
             };
         }
 
         // If no standard format, return the whole description as action
         return {
-            actor: 'user',
+            actor: "user",
             action: description.substring(0, 100),
-            purpose: '',
+            purpose: "",
         };
     }
 
@@ -169,9 +173,7 @@ export class StoryParser {
         const criteria: AcceptanceCriterion[] = [];
 
         // Look for Acceptance Criteria section
-        const criteriaSectionMatch = block.match(
-            /Acceptance\s+Criteria[:\s]*\n([\s\S]*?)(?=\n\s*#+|\n---|$)/is,
-        );
+        const criteriaSectionMatch = block.match(/Acceptance\s+Criteria[:\s]*\n([\s\S]*?)(?=\n\s*#+|\n---|$)/is);
 
         if (!criteriaSectionMatch) {
             // No explicit section, try to find individual AC items
@@ -223,11 +225,11 @@ export class StoryParser {
      */
     private extractGherkinScenarios(block: string): Scenario[] {
         const scenarios: Scenario[] = [];
-        const lines = block.split('\n');
+        const lines = block.split("\n");
 
         const currentScenario: Partial<Scenario> = {
             given: [],
-            when: '',
+            when: "",
             then: [],
         };
         let hasScenario = false;
@@ -272,9 +274,9 @@ export class StoryParser {
      */
     private stripGherkinKeyword(line: string): string {
         return line
-            .replace(/^(Given|g|And)\s+/i, '')
-            .replace(/^(When|w)\s+/i, '')
-            .replace(/^(Then|t)\s+/i, '')
+            .replace(/^(Given|g|And)\s+/i, "")
+            .replace(/^(When|w)\s+/i, "")
+            .replace(/^(Then|t)\s+/i, "")
             .trim();
     }
 
@@ -289,13 +291,10 @@ export class StoryParser {
         }
 
         // First non-keyword line
-        const lines = block.split('\n');
+        const lines = block.split("\n");
         for (const line of lines) {
             const trimmed = line.trim();
-            if (
-                trimmed &&
-                !trimmed.match(/^(Given|When|Then|And|Scenario|Acceptance)/i)
-            ) {
+            if (trimmed && !trimmed.match(/^(Given|When|Then|And|Scenario|Acceptance)/i)) {
                 return trimmed;
             }
         }
@@ -317,12 +316,10 @@ export class StoryParser {
             return [];
         }
 
-        const items = match[1]
-            .split(/\n(?=\*|\d+[.)])/)
-            .filter((item) => item.trim().length > 0);
+        const items = match[1].split(/\n(?=\*|\d+[.)])/).filter((item) => item.trim().length > 0);
 
         items.forEach((item, index) => {
-            const cleaned = item.replace(/^[\d+.)*]+\s*/, '').trim();
+            const cleaned = item.replace(/^[\d+.)*]+\s*/, "").trim();
             if (cleaned) {
                 criteria.push({
                     id: `ac-${index + 1}`,
@@ -340,16 +337,16 @@ export class StoryParser {
      */
     private extractMetadata(block: string): StoryMetadata {
         const metadata: Partial<StoryMetadata> = {
-            priority: 'medium',
+            priority: "medium",
             tags: [],
-            estimatedComplexity: 'moderate',
-            domain: '',
+            estimatedComplexity: "moderate",
+            domain: "",
         };
 
         // Priority
         const priorityMatch = block.match(/(?:Priority|PRIORITY)[:\s]*(critical|high|medium|low)/i);
         if (priorityMatch) {
-            metadata.priority = priorityMatch[1].toLowerCase() as StoryMetadata['priority'];
+            metadata.priority = priorityMatch[1].toLowerCase() as StoryMetadata["priority"];
         }
 
         // Tags
@@ -362,17 +359,15 @@ export class StoryParser {
         }
 
         // Complexity
-        const complexityMatch = block.match(
-            /(?:Complexity|EFFORT|SIZE)[:\s]*(simple|moderate|complex|trivial|large)/i,
-        );
+        const complexityMatch = block.match(/(?:Complexity|EFFORT|SIZE)[:\s]*(simple|moderate|complex|trivial|large)/i);
         if (complexityMatch) {
             const value = complexityMatch[1].toLowerCase();
-            if (value === 'trivial' || value === 'simple') {
-                metadata.estimatedComplexity = 'simple';
-            } else if (value === 'large' || value === 'complex') {
-                metadata.estimatedComplexity = 'complex';
+            if (value === "trivial" || value === "simple") {
+                metadata.estimatedComplexity = "simple";
+            } else if (value === "large" || value === "complex") {
+                metadata.estimatedComplexity = "complex";
             } else {
-                metadata.estimatedComplexity = 'moderate';
+                metadata.estimatedComplexity = "moderate";
             }
         }
 
@@ -393,17 +388,13 @@ export class StoryParser {
         const stories: UserStory[] = [];
         const summaryMatch = input.match(/Summary[:\s]+([^\n]+)/i);
         const descMatch = input.match(/Description[:\s]+([\s\S]*?)(?=\n\s*Acceptance|\n\s*Priority|$)/i);
-        const acMatch = input.match(
-            /Acceptance\s+Criteria[:\s]*([\s\S]*?)(?=\n\s*Priority|\n---|$)/i,
-        );
+        const acMatch = input.match(/Acceptance\s+Criteria[:\s]*([\s\S]*?)(?=\n\s*Priority|\n---|$)/i);
 
-        const title = summaryMatch?.[1]?.trim() || 'Jira Ticket';
-        const description = descMatch?.[1]?.trim() || '';
+        const title = summaryMatch?.[1]?.trim() || "Jira Ticket";
+        const description = descMatch?.[1]?.trim() || "";
         const { actor, action, purpose } = this.parseUserStoryStructure(description);
 
-        const acceptanceCriteria = acMatch
-            ? this.extractAcceptanceCriteria(acMatch[0])
-            : [];
+        const acceptanceCriteria = acMatch ? this.extractAcceptanceCriteria(acMatch[0]) : [];
 
         const metadata = this.extractMetadata(input);
 
@@ -450,17 +441,17 @@ export class StoryParser {
                 this.storyCounter++;
                 stories.push({
                     id: `story-${this.storyCounter}`,
-                    title: action.substring(0, 80) || 'Untitled Story',
+                    title: action.substring(0, 80) || "Untitled Story",
                     description: storyText,
                     actor,
                     action,
                     purpose,
                     acceptanceCriteria: [],
                     metadata: {
-                        priority: 'medium',
+                        priority: "medium",
                         tags: [],
-                        estimatedComplexity: 'moderate',
-                        domain: '',
+                        estimatedComplexity: "moderate",
+                        domain: "",
                     },
                 });
             }
@@ -471,15 +462,15 @@ export class StoryParser {
                 id: `story-${this.storyCounter}`,
                 title: input.substring(0, 80),
                 description: input,
-                actor: 'user',
+                actor: "user",
                 action: input.substring(0, 100),
-                purpose: '',
+                purpose: "",
                 acceptanceCriteria: [],
                 metadata: {
-                    priority: 'medium',
+                    priority: "medium",
                     tags: [],
-                    estimatedComplexity: 'moderate',
-                    domain: '',
+                    estimatedComplexity: "moderate",
+                    domain: "",
                 },
             });
         }
@@ -491,31 +482,22 @@ export class StoryParser {
      * Detect whether input is in Markdown format.
      */
     private isMarkdownFormat(input: string): boolean {
-        return (
-            input.includes('##') ||
-            input.includes('###') ||
-            input.includes('---') ||
-            input.includes('**')
-        );
+        return input.includes("##") || input.includes("###") || input.includes("---") || input.includes("**");
     }
 
     /**
      * Detect whether input is in Jira format.
      */
     private isJiraFormat(input: string): boolean {
-        const jiraFields = ['Summary', 'Description', 'Status', 'Priority', 'Labels', 'Component'];
-        return jiraFields.some(
-            (field) => new RegExp(`^${field}[:\\s]`, 'im').test(input),
-        );
+        const jiraFields = ["Summary", "Description", "Status", "Priority", "Labels", "Component"];
+        return jiraFields.some((field) => new RegExp(`^${field}[:\\s]`, "im").test(input));
     }
 
     /**
      * Detect whether input is in Linear format.
      */
     private isLinearFormat(input: string): boolean {
-        const linearFields = ['Title', 'Description', 'Type', 'Priority', 'Labels', 'Team'];
-        return linearFields.some(
-            (field) => new RegExp(`^${field}[:\\s]`, 'im').test(input),
-        );
+        const linearFields = ["Title", "Description", "Type", "Priority", "Labels", "Team"];
+        return linearFields.some((field) => new RegExp(`^${field}[:\\s]`, "im").test(input));
     }
 }

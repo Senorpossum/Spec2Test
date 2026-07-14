@@ -30,9 +30,9 @@ export interface Scenario {
 }
 
 export interface StoryMetadata {
-    priority: 'critical' | 'high' | 'medium' | 'low';
+    priority: "critical" | "high" | "medium" | "low";
     tags: string[];
-    estimatedComplexity: 'simple' | 'moderate' | 'complex';
+    estimatedComplexity: "simple" | "moderate" | "complex";
     domain: string;
 }
 
@@ -54,17 +54,9 @@ export interface TestCase {
 }
 
 export type TestType =
-    | 'unit'
-    | 'integration'
-    | 'e2e'
-    | 'api'
-    | 'contract'
-    | 'performance'
-    | 'accessibility'
-    | 'security'
-    | 'regression';
+    "unit" | "integration" | "e2e" | "api" | "contract" | "performance" | "accessibility" | "security" | "regression";
 
-export type TestSeverity = 'blocker' | 'critical' | 'major' | 'minor' | 'trivial';
+export type TestSeverity = "blocker" | "critical" | "major" | "minor" | "trivial";
 
 export interface TestStep {
     order: number;
@@ -74,16 +66,16 @@ export interface TestStep {
 }
 
 export type CoverageArea =
-    | 'happy-path'
-    | 'edge-case'
-    | 'error-handling'
-    | 'security'
-    | 'performance'
-    | 'accessibility'
-    | 'internationalization'
-    | 'responsiveness'
-    | 'compatibility'
-    | 'usability';
+    | "happy-path"
+    | "edge-case"
+    | "error-handling"
+    | "security"
+    | "performance"
+    | "accessibility"
+    | "internationalization"
+    | "responsiveness"
+    | "compatibility"
+    | "usability";
 
 export interface TestSuite {
     id: string;
@@ -94,7 +86,7 @@ export interface TestSuite {
     metadata: SuiteMetadata;
 }
 
-export type TestFramework = 'jest' | 'playwright' | 'cypress' | 'vitest' | 'mocha';
+export type TestFramework = "jest" | "playwright" | "cypress" | "vitest" | "mocha";
 
 export interface SuiteMetadata {
     generatedAt: string;
@@ -117,7 +109,7 @@ export interface CodebaseAnalysis {
     gaps: CoverageGap[];
 }
 
-export type Language = 'typescript' | 'javascript' | 'python' | 'java' | 'go' | 'rust' | 'other';
+export type Language = "typescript" | "javascript" | "python" | "java" | "go" | "rust" | "other";
 
 export interface ProjectStructure {
     sourceDirs: string[];
@@ -133,14 +125,7 @@ export interface ExistingTest {
     coverage: string[];
 }
 
-export type TestStyle =
-    | 'describe-it'
-    | 'test-expect'
-    | 'assert'
-    | 'should'
-    | 'expect'
-    | 'tdd'
-    | 'bdd';
+export type TestStyle = "describe-it" | "test-expect" | "assert" | "should" | "expect" | "tdd" | "bdd";
 
 export interface CodePatterns {
     namingConvention: string;
@@ -154,7 +139,7 @@ export interface CoverageGap {
     area: CoverageArea;
     description: string;
     affectedModules: string[];
-    priority: 'critical' | 'high' | 'medium' | 'low';
+    priority: "critical" | "high" | "medium" | "low";
 }
 
 // ============================================================================
@@ -181,7 +166,7 @@ export interface GeneralConfig {
 }
 
 export interface AIConfig {
-    provider: 'openai' | 'anthropic' | 'local';
+    provider: "openai" | "anthropic" | "local";
     model: string;
     maxTokens: number;
     temperature: number;
@@ -200,7 +185,7 @@ export interface GenerationConfig {
 export interface OutputConfig {
     outputDir: string;
     fileNamePattern: string;
-    format: 'single-file' | 'modular' | 'component-based';
+    format: "single-file" | "modular" | "component-based";
     includeTimestamp: boolean;
     overwrite: boolean;
 }
@@ -255,7 +240,7 @@ export interface GitHubActionInput {
     sourceDirectory: string;
     outputDirectory: string;
     framework: TestFramework;
-    aiProvider: AIConfig['provider'];
+    aiProvider: AIConfig["provider"];
     aiModel: string;
     aiApiKey: string;
     customPrompt: string;

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import * as fs from 'fs';
-import * as path from 'path';
-import { SpecGenerator } from '../generator/spec-generator.js';
-import { StoryParser } from '../parser/story-parser.js';
-import { CodebaseAnalyzer } from '../analyzer/codebase-analyzer.js';
-import type { TestFramework, Language } from '../types/index.js';
+import * as fs from "fs";
+import * as path from "path";
+import { SpecGenerator } from "../generator/spec-generator.js";
+import { StoryParser } from "../parser/story-parser.js";
+import { CodebaseAnalyzer } from "../analyzer/codebase-analyzer.js";
+import type { TestFramework, Language } from "../types/index.js";
 
 interface CLIArgs {
     command: string;
@@ -24,7 +24,7 @@ interface CLIArgs {
 
 function parseArgs(argv: string[]): CLIArgs {
     const args: CLIArgs = {
-        command: 'generate',
+        command: "generate",
         includeEdgeCases: false,
         includeSecurity: false,
         includeAccessibility: false,
@@ -36,51 +36,51 @@ function parseArgs(argv: string[]): CLIArgs {
     while (i < argv.length) {
         const arg = argv[i];
         switch (arg) {
-            case 'generate':
-                args.command = 'generate';
+            case "generate":
+                args.command = "generate";
                 break;
-            case '--stories':
-            case '-s':
+            case "--stories":
+            case "-s":
                 args.stories = argv[++i];
                 break;
-            case '--source-dir':
-            case '-d':
+            case "--source-dir":
+            case "-d":
                 args.sourceDir = argv[++i];
                 break;
-            case '--output-dir':
-            case '-o':
+            case "--output-dir":
+            case "-o":
                 args.outputDir = argv[++i];
                 break;
-            case '--framework':
-            case '-f':
+            case "--framework":
+            case "-f":
                 args.framework = argv[++i] as TestFramework;
                 break;
-            case '--language':
-            case '-l':
+            case "--language":
+            case "-l":
                 args.language = argv[++i] as Language;
                 break;
-            case '--include-edge-cases':
+            case "--include-edge-cases":
                 args.includeEdgeCases = true;
                 break;
-            case '--include-security':
+            case "--include-security":
                 args.includeSecurity = true;
                 break;
-            case '--include-accessibility':
+            case "--include-accessibility":
                 args.includeAccessibility = true;
                 break;
-            case '--include-performance':
+            case "--include-performance":
                 args.includePerformance = true;
                 break;
-            case '--verbose':
-            case '-v':
+            case "--verbose":
+            case "-v":
                 args.verbose = true;
                 break;
-            case '--config':
-            case '-c':
+            case "--config":
+            case "-c":
                 args.config = argv[++i];
                 break;
-            case '--help':
-            case '-h':
+            case "--help":
+            case "-h":
                 printHelp();
                 process.exit(0);
                 break;
@@ -117,19 +117,19 @@ Options:
 async function main(): Promise<void> {
     const args = parseArgs(process.argv);
 
-    if (args.command === 'generate') {
+    if (args.command === "generate") {
         if (!args.stories) {
-            console.error('Error: --stories is required for generate command');
+            console.error("Error: --stories is required for generate command");
             process.exit(1);
         }
 
         const sourceDir = args.sourceDir || process.cwd();
-        const outputDir = args.outputDir || path.join(process.cwd(), 'tests/generated');
-        const framework = args.framework || 'jest';
-        const language = args.language || 'typescript';
+        const outputDir = args.outputDir || path.join(process.cwd(), "tests/generated");
+        const framework = args.framework || "jest";
+        const language = args.language || "typescript";
 
         if (args.verbose) {
-            console.log('Spec2Test starting...');
+            console.log("Spec2Test starting...");
             console.log(`  Stories file: ${args.stories}`);
             console.log(`  Source directory: ${sourceDir}`);
             console.log(`  Output directory: ${outputDir}`);
@@ -143,7 +143,7 @@ async function main(): Promise<void> {
         }
 
         // Read and parse stories
-        const storiesContent = fs.readFileSync(args.stories, 'utf-8');
+        const storiesContent = fs.readFileSync(args.stories, "utf-8");
         const parser = new StoryParser();
         const stories = parser.parse(storiesContent);
 
@@ -152,7 +152,7 @@ async function main(): Promise<void> {
         }
 
         if (stories.length === 0) {
-            console.warn('Warning: No user stories found in the input file');
+            console.warn("Warning: No user stories found in the input file");
             return;
         }
 
@@ -162,7 +162,7 @@ async function main(): Promise<void> {
 
         if (args.verbose) {
             console.log(`  Detected language: ${analysis.language}`);
-            console.log(`  Detected framework: ${analysis.testFramework || 'unknown'}`);
+            console.log(`  Detected framework: ${analysis.testFramework || "unknown"}`);
         }
 
         // Generate tests
@@ -183,7 +183,7 @@ async function main(): Promise<void> {
         const result = await generator.generateFromParsed(stories, analysis, frameworkOptions);
 
         if (!result.success) {
-            console.error('Test generation failed:');
+            console.error("Test generation failed:");
             for (const error of result.errors) {
                 console.error(`  - ${error}`);
             }
@@ -191,7 +191,7 @@ async function main(): Promise<void> {
         }
 
         if (result.warnings.length > 0 && args.verbose) {
-            console.log('Warnings:');
+            console.log("Warnings:");
             for (const warning of result.warnings) {
                 console.log(`  - ${warning}`);
             }
@@ -200,7 +200,9 @@ async function main(): Promise<void> {
         // Write output
         const writtenFiles = await generator.writeTests(result, outputDir);
 
-        console.log(`Generated ${result.stats.testsGenerated} test(s) from ${result.stats.storiesProcessed} story(ies)`);
+        console.log(
+            `Generated ${result.stats.testsGenerated} test(s) from ${result.stats.storiesProcessed} story(ies)`,
+        );
         console.log(`Output files:`);
         for (const file of writtenFiles) {
             console.log(`  - ${file}`);
@@ -213,6 +215,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-    console.error('Error:', error instanceof Error ? error.message : String(error));
+    console.error("Error:", error instanceof Error ? error.message : String(error));
     process.exit(1);
 });
