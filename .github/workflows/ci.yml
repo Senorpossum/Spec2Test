@@ -21,7 +21,7 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 22
                   cache: npm
                   cache-dependency-path: package-lock.json
 
@@ -48,7 +48,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [20, 22]
+                node-version: [22, 24]
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -77,7 +77,7 @@ jobs:
 
             - name: Upload coverage
               uses: codecov/codecov-action@v4
-              if: matrix.node-version == 20
+              if: matrix.node-version == 24
               with:
                   files: ./coverage/lcov.info
                   fail_ci_if_error: false
@@ -93,7 +93,7 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 24
                   cache: npm
                   cache-dependency-path: package-lock.json
 
@@ -136,7 +136,7 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 24
                   cache: npm
                   cache-dependency-path: package-lock.json
 
@@ -164,7 +164,7 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 24
                   cache: npm
                   cache-dependency-path: package-lock.json
 
