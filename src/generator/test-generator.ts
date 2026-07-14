@@ -419,7 +419,7 @@ export class TestGenerator {
     /**
      * Generate integration-level test cases.
      */
-    private generateIntegrationTests(story: UserStory, analysis: CodebaseAnalysis): TestCase[] {
+    private generateIntegrationTests(story: UserStory, _analysis: CodebaseAnalysis): TestCase[] {
         const tests: TestCase[] = [];
 
         const integrationTest: TestCase = {

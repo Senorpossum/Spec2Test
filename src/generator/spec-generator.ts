@@ -3,7 +3,6 @@ import * as path from 'path';
 import {
     UserStory,
     CodebaseAnalysis,
-    Spec2TestConfig,
     GenerationResult,
     TestFramework,
     Language,

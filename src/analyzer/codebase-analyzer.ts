@@ -478,7 +478,7 @@ export class CodebaseAnalyzer {
     /**
      * Detect fixture pattern (inline, separate files, factories).
      */
-    private detectFixturePattern(testFiles: string[]): string | null {
+    private detectFixturePattern(_testFiles: string[]): string | null {
         const hasFixturesDir = this.checkDirectoryExists('fixtures');
         const hasTestDataDir = this.checkDirectoryExists('test-data');
         const hasFactoriesDir = this.checkDirectoryExists('factories');
@@ -534,11 +534,11 @@ export class CodebaseAnalyzer {
             this.anyFileContains(this.findTestFiles().slice(0, 5), /security|auth|permission|csrf|xss|inject/i),
         );
 
-        const hasAccessibilityTests = existingTests.some((t) =>
+        const hasAccessibilityTests = existingTests.some((_t) =>
             this.anyFileContains(this.findTestFiles().slice(0, 5), /a11y|accessibility|axe|wcag/i),
         );
 
-        const hasPerformanceTests = existingTests.some((t) =>
+        const hasPerformanceTests = existingTests.some((_t) =>
             this.anyFileContains(this.findTestFiles().slice(0, 5), /performance|benchmark|timing|slow/i),
         );
 
@@ -660,7 +660,7 @@ export class CodebaseAnalyzer {
      */
     private globToRegex(pattern: string): RegExp {
         // Very simple glob-to-regex converter
-        let regexStr = '^' +
+        const regexStr = '^' +
             pattern
                 .replace(/\*\*/g, '<<DOUBLE>>')
                 .replace(/\*/g, '[^/]*')

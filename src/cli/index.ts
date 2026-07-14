@@ -5,7 +5,7 @@ import * as path from 'path';
 import { SpecGenerator } from '../generator/spec-generator.js';
 import { StoryParser } from '../parser/story-parser.js';
 import { CodebaseAnalyzer } from '../analyzer/codebase-analyzer.js';
-import type { TestFramework, Language, GenerationConfig } from '../types/index.js';
+import type { TestFramework, Language } from '../types/index.js';
 
 interface CLIArgs {
     command: string;
@@ -167,13 +167,6 @@ async function main(): Promise<void> {
 
         // Generate tests
         const generator = new SpecGenerator(sourceDir);
-        const options: GenerationConfig = {
-            maxTestsPerStory: 20,
-            minEdgeCasesPerStory: 3,
-            duplicateThreshold: 0.8,
-            generateDocumentation: true,
-            generateSetupCode: true,
-        };
 
         const frameworkOptions = {
             sourceDirectory: sourceDir,

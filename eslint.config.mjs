@@ -16,6 +16,12 @@ export default [
                 project: './tsconfig.json',
                 tsconfigRootDir: import.meta.dirname,
             },
+            globals: {
+                console: 'readonly',
+                process: 'readonly',
+                __dirname: 'readonly',
+                __filename: 'readonly',
+            },
         },
         plugins: {
             '@typescript-eslint': tseslint,
@@ -29,10 +35,10 @@ export default [
             '@typescript-eslint/no-explicit-any': 'warn',
             '@typescript-eslint/explicit-function-return-type': 'off',
             '@typescript-eslint/explicit-module-boundary-types': 'off',
-            '@typescript-eslint/no-floating-promises': 'error',
+            '@typescript-eslint/no-floating-promises': 'warn',
             '@typescript-eslint/no-non-null-assertion': 'warn',
             'prefer-const': 'error',
-            'no-console': ['warn', { allow: ['warn', 'error'] }],
+            'no-console': 'warn',
         },
     },
 

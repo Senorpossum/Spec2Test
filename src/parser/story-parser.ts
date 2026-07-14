@@ -225,7 +225,7 @@ export class StoryParser {
         const scenarios: Scenario[] = [];
         const lines = block.split('\n');
 
-        let currentScenario: Partial<Scenario> = {
+        const currentScenario: Partial<Scenario> = {
             given: [],
             when: '',
             then: [],
@@ -322,7 +322,7 @@ export class StoryParser {
             .filter((item) => item.trim().length > 0);
 
         items.forEach((item, index) => {
-            const cleaned = item.replace(/^[\*\d+.)]+\s*/, '').trim();
+            const cleaned = item.replace(/^[\d+.)*]+\s*/, '').trim();
             if (cleaned) {
                 criteria.push({
                     id: `ac-${index + 1}`,
