@@ -1,19 +1,59 @@
 {
     "name": "spec2test",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Automated test suite generation from user stories and specification documents",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.js"
+            }
+        },
+        "./parser": {
+            "import": {
+                "types": "./dist/parser/index.d.ts",
+                "default": "./dist/parser/index.js"
+            }
+        },
+        "./analyzer": {
+            "import": {
+                "types": "./dist/analyzer/codebase-analyzer.d.ts",
+                "default": "./dist/analyzer/codebase-analyzer.js"
+            }
+        },
+        "./generator": {
+            "import": {
+                "types": "./dist/generator/spec-generator.d.ts",
+                "default": "./dist/generator/spec-generator.js"
+            }
+        }
+    },
     "bin": {
-        "spec2test": "./dist/cli/index.js"
+        "spec2test": "./dist/cli/index.js",
+        "s2t": "./dist/cli/index.js"
     },
     "type": "module",
+    "engines": {
+        "node": ">=18.0.0"
+    },
     "scripts": {
         "build": "tsc",
+        "prepublishOnly": "npm run build",
         "start": "node dist/cli/index.js",
         "dev": "tsx src/cli/index.ts",
+        "dev:watch": "tsx watch src/cli/index.ts",
         "generate": "node dist/cli/index.js generate",
-        "test": "echo \"No tests configured yet\""
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "lint": "eslint src --ext .ts",
+        "lint:fix": "eslint src --ext .ts --fix",
+        "format": "prettier --check .",
+        "format:fix": "prettier --write .",
+        "typecheck": "tsc --noEmit",
+        "s2t:watch": "node dist/cli/index.js watch"
     },
     "keywords": [
         "test-generation",
@@ -24,9 +64,12 @@
         "playwright",
         "cypress",
         "api-testing",
-        "automated-testing"
+        "automated-testing",
+        "spec-driven-testing",
+        "bdd",
+        "tdd"
     ],
-    "author": "Senorpossum <https://github.com/Senorpossum>",
+    "author": "Senorpossum",
     "license": "MIT",
     "repository": {
         "type": "git",
@@ -35,18 +78,38 @@
     "bugs": {
         "url": "https://github.com/Senorpossum/spec2test/issues"
     },
-    "engines": {
-        "node": ">=18.0.0"
+    "homepage": "https://github.com/Senorpossum/spec2test",
+    "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/Senorpossum"
     },
     "dependencies": {
         "chalk": "^5.3.0",
         "commander": "^11.1.0",
         "figlet": "^1.7.0",
-        "ora": "^8.0.1"
+        "ora": "^8.0.1",
+        "chokidar": "^3.6.0",
+        "typescript": "^5.3.0",
+        "jsonc-parser": "^3.3.0",
+        "globby": "^14.0.1"
     },
     "devDependencies": {
         "@types/figlet": "^1.5.6",
         "@types/node": "^20.10.0",
-        "typescript": "^5.3.0"
-    }
+        "@vitest/coverage-v8": "^1.0.0",
+        "@typescript-eslint/eslint-plugin": "^6.0.0",
+        "@typescript-eslint/parser": "^6.0.0",
+        "eslint": "^8.56.0",
+        "prettier": "^3.1.0",
+        "tsx": "^4.7.0",
+        "vitest": "^1.0.0",
+        "smob": "^1.0.0"
+    },
+    "sideEffects": false,
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE",
+        "SECURITY.md"
+    ]
 }
